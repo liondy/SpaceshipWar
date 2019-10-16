@@ -1,0 +1,7 @@
+#Wed Oct 16 20:41:15 WIB 2019
+base.0=/media/michael/New Volume/College/P3B/SpaceshipWar/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes.dex
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=/media/michael/New Volume/College/P3B/SpaceshipWar/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex
