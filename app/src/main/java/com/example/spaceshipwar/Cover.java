@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +33,7 @@ public class Cover extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity ma = (MainActivity) getActivity();
+                ma.showPage(2);
 
             }
         });

@@ -1,59 +1,56 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_polos"
-    android:gravity="bottom" >
+    android:background="@drawable/background_polos">
 
     <ImageView
         android:id="@+id/ivCanvas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-    </ImageView>
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SCORE :"
+            android:text="@string/score_text"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/score_value"
             android:textColor="@color/white"
-            android:textSize="25dp"/>
+            android:textSize="25sp"/>
     </LinearLayout>
 
-
     <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/black" >
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/btnleft"
+        <ImageButton
+            android:id="@+id/btn_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LEFT"
-            android:layout_alignParentLeft="true" />
+            android:src="@drawable/left_arrow"
+            android:background="@null"
+            android:layout_alignParentLeft="true"/>
 
-        <Button
-            android:id="@+id/btnright"
+        <ImageButton
+            android:id="@+id/btn_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RIGHT"
+            android:src="@drawable/right_arrow"
+            android:background="@null"
             android:layout_alignParentRight="true"/>
-
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Spaceship War</string>
+    <string name="score_text">SCORE: </string>
+    <string name="score_value">0</string>
 </resources>

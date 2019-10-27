@@ -12,12 +12,16 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
     private FragmentManager fragmentManager;
     private Cover splash_screen;
+    private Gameplay gameplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         this.splash_screen = Cover.createCover();
+        this.gameplay = Gameplay.createGameplay();
+
         this.fragmentManager=this.getSupportFragmentManager();
         showPage(1);
     }
@@ -31,6 +35,20 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             }
             else{
                 ft.add(R.id.fragment_container,this.splash_screen);
+            }
+            if(this.gameplay.isAdded()){
+                ft.hide(this.gameplay);
+            }
+        }
+        else if(page==2){
+            if(this.gameplay.isAdded()){
+                ft.show(this.gameplay);
+            }
+            else{
+                ft.add(R.id.fragment_container,this.gameplay);
+            }
+            if(this.splash_screen.isAdded()){
+                ft.hide(this.splash_screen);
             }
         }
         ft.commit();
