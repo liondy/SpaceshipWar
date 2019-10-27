@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_polos"
+    android:gravity="bottom" >
+
+    <ImageView
+        android:id="@+id/ivCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCORE :"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="25dp"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black" >
+
+        <Button
+            android:id="@+id/btnleft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LEFT"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:id="@+id/btnright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RIGHT"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
