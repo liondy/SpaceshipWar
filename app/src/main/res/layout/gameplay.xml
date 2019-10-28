@@ -42,7 +42,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/left_arrow"
             android:background="@null"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:tint="@color/transparant"/>
 
         <ImageButton
             android:id="@+id/btn_right"
@@ -50,7 +51,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/right_arrow"
             android:background="@null"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:tint="@color/transparant"/>
     </RelativeLayout>
 
 </RelativeLayout>

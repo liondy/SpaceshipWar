@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity implements FragmentListener {
 
@@ -19,8 +20,10 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.splash_screen = Cover.createCover();
-        this.gameplay = Gameplay.createGameplay();
+        MainPresenter presenter = new MainPresenter(this);
+
+        this.splash_screen = Cover.createCover(presenter);
+        this.gameplay = Gameplay.createGameplay(presenter);
 
         this.fragmentManager=this.getSupportFragmentManager();
         showPage(1);
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     @Override
     public void showPage(int page) {
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
-        if(page==1){
+        if(page==FragmentListener.COVER){
             if(this.splash_screen.isAdded()){
                 ft.show(this.splash_screen);
             }
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 ft.hide(this.gameplay);
             }
         }
-        else if(page==2){
+        else if(page==FragmentListener.GAME){
             if(this.gameplay.isAdded()){
                 ft.show(this.gameplay);
             }

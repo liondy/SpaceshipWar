@@ -13,14 +13,16 @@ public class Cover extends Fragment {
     private static Cover spash_screen;
     private ImageButton btn_start;
     private ImageButton btn_high_score;
+    private MainPresenter presenter;
 
     public Cover(){
         //require empty constructor
     }
 
-    public static Cover createCover(){
+    public static Cover createCover(MainPresenter presenter){
         if(spash_screen==null){
             spash_screen = new Cover();
+            spash_screen.presenter = presenter;
         }
         return spash_screen;
     }
@@ -32,15 +34,13 @@ public class Cover extends Fragment {
         this.btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity ma = (MainActivity) getActivity();
-                ma.showPage(2);
+                presenter.showPage(FragmentListener.GAME);
 
             }
         });
         this.btn_high_score.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity ma = (MainActivity) getActivity();
 
             }
         });
