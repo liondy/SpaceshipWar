@@ -1,11 +1,14 @@
 package com.example.spaceshipwar;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,10 @@ public class Gameplay extends Fragment {
     private TextView score;
     private ImageButton btn_left;
     private ImageButton btn_right;
+
+    private Bitmap mBitmap;
+    private ImageView imgContainer;
+    private Canvas mCanvas;
 
     public Gameplay(){
         //require empty constructor
@@ -57,6 +64,7 @@ public class Gameplay extends Fragment {
                 return true;
             }
         });
+        imgContainer = (ImageView) view.findViewById(R.id.imgContainer);
         return view;
     }
 }
