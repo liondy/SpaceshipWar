@@ -1,5 +1,6 @@
 package com.example.spaceshipwar;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,11 @@ public class Cover extends Fragment {
         this.btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int width = getScreenWidth();
+                int height = getScreenHeight();
+                presenter.setWidth(width);
+                presenter.setHeight(height);
                 presenter.showPage(FragmentListener.GAME);
-
             }
         });
         this.btn_high_score.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +49,14 @@ public class Cover extends Fragment {
             }
         });
         return view;
+    }
+
+    private static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    private static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
 }

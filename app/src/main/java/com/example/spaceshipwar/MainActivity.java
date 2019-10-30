@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-public class MainActivity extends AppCompatActivity implements FragmentListener {
+public class MainActivity extends AppCompatActivity implements FragmentListener,GameplayListener {
 
     private FragmentManager fragmentManager;
     private Cover splash_screen;
@@ -64,5 +64,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
+    }
+
+    @Override
+    public void setWidth(int width) {
+        this.gameplay.setBitmapWidth(width);
+    }
+
+    @Override
+    public void setHeight(int height) {
+        this.gameplay.setBitmapHeight(height);
     }
 }

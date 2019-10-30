@@ -1,7 +1,14 @@
 package com.example.spaceshipwar;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,7 +18,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+
+import static androidx.core.content.res.ResourcesCompat.getColor;
 
 public class Gameplay extends Fragment {
 
@@ -20,11 +30,13 @@ public class Gameplay extends Fragment {
     private TextView score;
     private ImageButton btn_left;
     private ImageButton btn_right;
-    private ImageButton spaceship;
+
+    private Spaceship spaceship;
 
     private Bitmap mBitmap;
     private ImageView imgContainer;
-    private Canvas mCanvas;
+    private Canvas canvas;
+//    private Paint paint;
 
     private int bitmapHeight;
     private int bitmapWidth;
@@ -45,7 +57,6 @@ public class Gameplay extends Fragment {
         View view  = inflater.inflate(R.layout.gameplay,container,false);
         imgContainer = (ImageView) view.findViewById(R.id.imgContainer);
         this.initiateCanvas();
-        spaceship = (ImageButton) view.findViewById(R.id.spaceship);
         score = (TextView) view.findViewById(R.id.score);
         btn_left = (ImageButton) view.findViewById(R.id.btn_left);
         btn_left.setOnTouchListener(new View.OnTouchListener() {
@@ -53,6 +64,8 @@ public class Gameplay extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     btn_left.setColorFilter(getResources().getColor(R.color.white));
+                    spaceship.moveLeft();
+                    resetCanvas();
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     btn_left.setColorFilter(getResources().getColor(R.color.transparant));
                 }
@@ -65,6 +78,8 @@ public class Gameplay extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     btn_right.setColorFilter(getResources().getColor(R.color.white));
+                    spaceship.moveRight();
+                    resetCanvas();
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     btn_right.setColorFilter(getResources().getColor(R.color.transparant));
                 }
@@ -74,17 +89,30 @@ public class Gameplay extends Fragment {
         return view;
     }
 
+    public void setBitmapWidth(int width){
+        this.bitmapWidth = width;
+    }
+
+    public void setBitmapHeight(int bitmapHeight) {
+        this.bitmapHeight = bitmapHeight;
+    }
+
     private void initiateCanvas(){
-        this.bitmapHeight = this.imgContainer.getHeight();
-        this.bitmapWidth = this.imgContainer.getWidth();
-        System.out.println(this.bitmapHeight + " "+ this.bitmapWidth);
-        this.mBitmap = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888);
+        this.mBitmap = Bitmap.createBitmap(this.bitmapWidth,this.bitmapHeight,Bitmap.Config.ARGB_8888);
+        Bitmap ship = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
+        this.mBitmap = this.mBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        this.canvas = new Canvas(this.mBitmap);
+        this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth);
         this.imgContainer.setImageBitmap(this.mBitmap);
-        this.mCanvas = new Canvas(this.mBitmap);
         this.resetCanvas();
     }
 
     private void resetCanvas(){
+        this.mBitmap.eraseColor(Color.TRANSPARENT);
+        Paint paint = new Paint();
+        ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        paint.setColorFilter(filter);
+        this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
         this.imgContainer.invalidate();
     }
 }
