@@ -20,10 +20,14 @@ public class Gameplay extends Fragment {
     private TextView score;
     private ImageButton btn_left;
     private ImageButton btn_right;
+    private ImageButton spaceship;
 
     private Bitmap mBitmap;
     private ImageView imgContainer;
     private Canvas mCanvas;
+
+    private int bitmapHeight;
+    private int bitmapWidth;
 
     public Gameplay(){
         //require empty constructor
@@ -39,6 +43,9 @@ public class Gameplay extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view  = inflater.inflate(R.layout.gameplay,container,false);
+        imgContainer = (ImageView) view.findViewById(R.id.imgContainer);
+        this.initiateCanvas();
+        spaceship = (ImageButton) view.findViewById(R.id.spaceship);
         score = (TextView) view.findViewById(R.id.score);
         btn_left = (ImageButton) view.findViewById(R.id.btn_left);
         btn_left.setOnTouchListener(new View.OnTouchListener() {
@@ -64,7 +71,20 @@ public class Gameplay extends Fragment {
                 return true;
             }
         });
-        imgContainer = (ImageView) view.findViewById(R.id.imgContainer);
         return view;
+    }
+
+    private void initiateCanvas(){
+        this.bitmapHeight = this.imgContainer.getHeight();
+        this.bitmapWidth = this.imgContainer.getWidth();
+        System.out.println(this.bitmapHeight + " "+ this.bitmapWidth);
+        this.mBitmap = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888);
+        this.imgContainer.setImageBitmap(this.mBitmap);
+        this.mCanvas = new Canvas(this.mBitmap);
+        this.resetCanvas();
+    }
+
+    private void resetCanvas(){
+        this.imgContainer.invalidate();
     }
 }
