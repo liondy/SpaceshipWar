@@ -21,6 +21,8 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 import static androidx.core.content.res.ResourcesCompat.getColor;
 
 public class Gameplay extends Fragment {
@@ -41,7 +43,11 @@ public class Gameplay extends Fragment {
     private int bitmapHeight;
     private int bitmapWidth;
 
-    private Bullet bullet;
+    ArrayList<Bullet> bullets = new ArrayList<>();
+    ThreadBullet threadBullet;
+    ThreadMove bulletMoveThread;
+    UIThreadedWrapper objUIWrapper;
+    Paint paint;
 
     public Gameplay(){
         //require empty constructor
@@ -100,22 +106,49 @@ public class Gameplay extends Fragment {
     }
 
     private void initiateCanvas(){
+        this.objUIWrapper = new UIThreadedWrapper(this);
         this.mBitmap = Bitmap.createBitmap(this.bitmapWidth,this.bitmapHeight,Bitmap.Config.ARGB_8888);
         this.ship = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         this.mBitmap = this.mBitmap.copy(Bitmap.Config.ARGB_8888,true);
         this.canvas = new Canvas(this.mBitmap);
+        this.paint = new Paint();
         this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth);
+        this.threadBullet = new ThreadBullet(this.objUIWrapper,this.spaceship);
+        this.threadBullet.start();
+        this.bulletMoveThread = new ThreadMove(this.objUIWrapper,this.bullets);
+        this.bulletMoveThread.start();
         this.imgContainer.setImageBitmap(this.mBitmap);
         this.resetCanvas();
     }
 
     private void resetCanvas(){
         this.mBitmap.eraseColor(Color.TRANSPARENT);
-        Paint paint = new Paint();
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
-        this.canvas.drawCircle(spaceship.getX()+ship.getWidth()/2,spaceship.getY(),20,paint);
         this.imgContainer.invalidate();
+    }
+
+    public void drawBullet(int x, int y){
+        Rect rectangle = new Rect(x+10 , y + 350, x - 10, y + 300);
+        this.canvas.drawRect(rectangle, paint);
+    }
+
+    public void setBullet(Bullet bullet){
+        this.bullets.add(bullet);
+        resetCanvas();
+        for (int i = 0; i < this.bullets.size(); i++) {
+            this.drawBullet((int)this.bullets.get(i).getX(), (int)this.bullets.get(i).getY());
+        }
+
+    }
+
+    public void setBullets(ArrayList<Bullet> bullets){
+        this.bullets = bullets;
+        resetCanvas();
+        for (int i = 0; i < this.bullets.size(); i++) {
+            this.drawBullet((int)this.bullets.get(i).getX(), (int)this.bullets.get(i).getY());
+        }
+
     }
 }
