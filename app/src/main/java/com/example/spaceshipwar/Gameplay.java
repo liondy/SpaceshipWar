@@ -36,9 +36,12 @@ public class Gameplay extends Fragment {
     private Bitmap mBitmap;
     private ImageView imgContainer;
     private Canvas canvas;
+    private Bitmap ship;
 
     private int bitmapHeight;
     private int bitmapWidth;
+
+    private Bullet bullet;
 
     public Gameplay(){
         //require empty constructor
@@ -98,7 +101,7 @@ public class Gameplay extends Fragment {
 
     private void initiateCanvas(){
         this.mBitmap = Bitmap.createBitmap(this.bitmapWidth,this.bitmapHeight,Bitmap.Config.ARGB_8888);
-        Bitmap ship = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
+        this.ship = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         this.mBitmap = this.mBitmap.copy(Bitmap.Config.ARGB_8888,true);
         this.canvas = new Canvas(this.mBitmap);
         this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth);
@@ -112,6 +115,7 @@ public class Gameplay extends Fragment {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
+        this.canvas.drawCircle(spaceship.getX()+ship.getWidth()/2,spaceship.getY(),20,paint);
         this.imgContainer.invalidate();
     }
 }
