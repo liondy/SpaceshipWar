@@ -130,7 +130,7 @@ public class Gameplay extends Fragment {
     }
 
     public void drawBullet(int x, int y){
-        Rect rectangle = new Rect(x+10 , y + 350, x - 10, y + 300);
+        Rect rectangle = new Rect(x+175 , y + 50, x + 155, y+20 );
         this.canvas.drawRect(rectangle, paint);
     }
 
