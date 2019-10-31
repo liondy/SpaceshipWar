@@ -36,7 +36,6 @@ public class Gameplay extends Fragment {
     private Bitmap mBitmap;
     private ImageView imgContainer;
     private Canvas canvas;
-//    private Paint paint;
 
     private int bitmapHeight;
     private int bitmapWidth;
