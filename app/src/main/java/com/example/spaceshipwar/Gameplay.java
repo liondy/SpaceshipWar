@@ -129,7 +129,7 @@ public class Gameplay extends Fragment {
 
         this.threadBullet = new ThreadBullet(this.objUIWrapper,this.spaceship);
         this.threadBullet.start();
-        this.bulletMoveThread = new ThreadMove(this.objUIWrapper,this.bullets);
+        this.bulletMoveThread = new ThreadMove(this.objUIWrapper,this.bullets,this.musuh);
         this.bulletMoveThread.start();
 
         this.threadEnemy = new ThreadEnemy(this.musuh);
