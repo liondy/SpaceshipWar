@@ -34,18 +34,25 @@ public class Gameplay extends Fragment {
     private ImageButton btn_right;
 
     private Spaceship spaceship;
+    private Enemy musuh;
 
     private Bitmap mBitmap;
+    private Bitmap uBitmap;
     private ImageView imgContainer;
     private Canvas canvas;
     private Bitmap ship;
+    private Bitmap ufo;
 
     private int bitmapHeight;
     private int bitmapWidth;
 
     ArrayList<Bullet> bullets = new ArrayList<>();
+    ArrayList<Bullet> enemiesBullets = new ArrayList<>();
     ThreadBullet threadBullet;
     ThreadMove bulletMoveThread;
+    ThreadEnemy threadEnemy;
+    ThreadEnemyBullet threadEnemyBullet;
+    ThreadMoveEnemy threadMoveEnemy;
     UIThreadedWrapper objUIWrapper;
     Paint paint;
 
@@ -107,16 +114,31 @@ public class Gameplay extends Fragment {
 
     private void initiateCanvas(){
         this.objUIWrapper = new UIThreadedWrapper(this);
+
         this.mBitmap = Bitmap.createBitmap(this.bitmapWidth,this.bitmapHeight,Bitmap.Config.ARGB_8888);
+        this.uBitmap = Bitmap.createBitmap(this.bitmapWidth,this.bitmapHeight,Bitmap.Config.ARGB_8888);
         this.ship = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
+        this.ufo = BitmapFactory.decodeResource(getResources(), R.drawable.ufo);
         this.mBitmap = this.mBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        this.uBitmap = this.uBitmap.copy(Bitmap.Config.ARGB_8888,true);
         this.canvas = new Canvas(this.mBitmap);
         this.paint = new Paint();
+
         this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth);
+        this.musuh = new Enemy(ufo, this.mBitmap.getWidth()/2-ufo.getWidth()/2,ufo.getHeight()-200,this.mBitmap.getWidth(),this.mBitmap.getHeight());
+
         this.threadBullet = new ThreadBullet(this.objUIWrapper,this.spaceship);
         this.threadBullet.start();
         this.bulletMoveThread = new ThreadMove(this.objUIWrapper,this.bullets);
         this.bulletMoveThread.start();
+
+        this.threadEnemy = new ThreadEnemy(this.musuh);
+        this.threadEnemy.start();
+        this.threadEnemyBullet = new ThreadEnemyBullet(this.objUIWrapper,this.musuh);
+        this.threadEnemyBullet.start();
+        this.threadMoveEnemy = new ThreadMoveEnemy(this.objUIWrapper,this.enemiesBullets);
+        this.threadMoveEnemy.start();
+
         this.imgContainer.setImageBitmap(this.mBitmap);
         this.resetCanvas();
     }
@@ -126,6 +148,7 @@ public class Gameplay extends Fragment {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
+        this.canvas.drawBitmap(musuh.getMusuh(),musuh.getX(),musuh.getY(),paint);
         this.imgContainer.invalidate();
     }
 
@@ -151,4 +174,26 @@ public class Gameplay extends Fragment {
         }
 
     }
+
+    public void drawEnemyBullet(int x, int y){
+        Rect rectangle = new Rect(x+175 , y + 330, x + 155, y+280 );
+        this.canvas.drawRect(rectangle, paint);
+    }
+
+    public void setEnemyBullet(Bullet bulet){
+        this.enemiesBullets.add(bulet);
+        resetCanvas();
+        for(int i=0;i<this.enemiesBullets.size();i++){
+            this.drawEnemyBullet((int)this.enemiesBullets.get(i).getX(), (int)this.enemiesBullets.get(i).getY());
+        }
+    }
+
+    public void setEnemiesBullet(ArrayList<Bullet> bullets){
+        this.enemiesBullets = bullets;
+        resetCanvas();
+        for(int i=0;i<this.enemiesBullets.size();i++){
+            this.drawEnemyBullet((int)this.enemiesBullets.get(i).getX(),(int)this.enemiesBullets.get(i).getY());
+        }
+    }
+
 }

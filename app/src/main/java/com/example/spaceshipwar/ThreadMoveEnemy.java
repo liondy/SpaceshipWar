@@ -1,18 +1,15 @@
 package com.example.spaceshipwar;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
-public class ThreadMove implements Runnable{
-
+public class ThreadMoveEnemy implements Runnable {
     protected Thread thread;
     protected UIThreadedWrapper uiThreadedWrapper;
-    private ArrayList<Bullet> bullets;
+    protected ArrayList<Bullet> bullets = new ArrayList<>();
 
-    public ThreadMove(UIThreadedWrapper uiThreadedWrapper, ArrayList<Bullet> bullets){
+    public ThreadMoveEnemy(UIThreadedWrapper uiThreadedWrapper, ArrayList<Bullet> bullets) {
+        this.thread = new Thread();
         this.uiThreadedWrapper = uiThreadedWrapper;
-        this.thread = new Thread(this);
         this.bullets = bullets;
     }
 
@@ -20,12 +17,11 @@ public class ThreadMove implements Runnable{
         this.thread.start();
     }
 
-
     @Override
     public void run() {
-        while (true) {
+        while(true){
             for (int i = 0; i < this.bullets.size(); i++) {
-                this.bullets.get(i).setY((int)this.bullets.get(i).getY() - 100);
+                this.bullets.get(i).setY((int)this.bullets.get(i).getY() + 30);
             }
             this.uiThreadedWrapper.setBullets(this.bullets);
             try {
@@ -33,13 +29,11 @@ public class ThreadMove implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("Thread");
         }
     }
 
-    public void setBullets(ArrayList<Bullet> bullets) {
+    public void setEnemyBullets(ArrayList<Bullet> bullets){
         this.bullets = bullets;
     }
-
 }
-
-
