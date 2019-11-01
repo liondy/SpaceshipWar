@@ -148,7 +148,7 @@ public class Gameplay extends Fragment {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
-        this.canvas.drawBitmap(musuh.getMusuh(),musuh.getX(),musuh.getY(),paint);
+        this.canvas.drawBitmap(musuh.getMusuh(),musuh.getX(),musuh.getY(),new Paint());
         this.imgContainer.invalidate();
     }
 
