@@ -6,7 +6,7 @@ public class Spaceship {
     private Bitmap spaceship;
     private float x;
     private float y;
-    private float batas;
+    private float batas;;
 
     public Spaceship(Bitmap spaceship,float x,float y,float batas){
         this.spaceship = spaceship;
@@ -36,14 +36,14 @@ public class Spaceship {
     }
 
     public void moveLeft(){
-        if(this.x-30>=0){
-            this.x-=30;
+        if(this.x-10>=0){
+            this.x-=10;
         }
     }
 
     public void moveRight(){
-        if(this.x+30<=batas-spaceship.getWidth()/1.5f){
-            this.x+=30;
+        if(this.x+10<=batas-spaceship.getWidth()/1.5f){
+            this.x+=10;
         }
     }
 }

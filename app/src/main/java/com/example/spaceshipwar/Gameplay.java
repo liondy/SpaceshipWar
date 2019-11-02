@@ -1,5 +1,6 @@
 package com.example.spaceshipwar;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,6 +10,10 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,14 +23,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-import static androidx.core.content.res.ResourcesCompat.getColor;
+public class Gameplay extends Fragment implements SensorEventListener {
 
-public class Gameplay extends Fragment {
+    private Context context;
 
     private static Gameplay gameplay;
     private MainPresenter presenter;
@@ -42,28 +46,32 @@ public class Gameplay extends Fragment {
     private Canvas canvas;
     private Bitmap ship;
     private Bitmap ufo;
+    private Paint paint;
 
     private int bitmapHeight;
     private int bitmapWidth;
 
-    ArrayList<Bullet> bullets = new ArrayList<>();
-    ArrayList<Bullet> enemiesBullets = new ArrayList<>();
-    ThreadBullet threadBullet;
-    ThreadMove bulletMoveThread;
-    ThreadEnemy threadEnemy;
-    ThreadEnemyBullet threadEnemyBullet;
-    ThreadMoveEnemy threadMoveEnemy;
-    UIThreadedWrapper objUIWrapper;
-    Paint paint;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private ArrayList<Bullet> enemiesBullets = new ArrayList<>();
+    private ThreadBullet threadBullet;
+    private ThreadMove bulletMoveThread;
+    private ThreadEnemy threadEnemy;
+    private ThreadEnemyBullet threadEnemyBullet;
+    private ThreadMoveEnemy threadMoveEnemy;
+    private UIThreadedWrapper objUIWrapper;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
 
     public Gameplay(){
         //require empty constructor
     }
 
-    public static Gameplay createGameplay(MainPresenter presenter){
+    public static Gameplay createGameplay(MainPresenter presenter,Context context){
         if(gameplay==null){
             gameplay = new Gameplay();
             gameplay.presenter = presenter;
+            gameplay.context=context;
         }
         return gameplay;
     }
@@ -71,7 +79,8 @@ public class Gameplay extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view  = inflater.inflate(R.layout.gameplay,container,false);
         imgContainer = (ImageView) view.findViewById(R.id.imgContainer);
-        this.initiateCanvas();
+        this.sensorManager = (SensorManager) this.context.getSystemService(Context.SENSOR_SERVICE);
+        this.accelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         score = (TextView) view.findViewById(R.id.score);
         btn_left = (ImageButton) view.findViewById(R.id.btn_left);
         btn_left.setOnTouchListener(new View.OnTouchListener() {
@@ -143,6 +152,21 @@ public class Gameplay extends Fragment {
         this.resetCanvas();
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        this.initiateCanvas();
+        if(this.accelerometer!=null){
+            this.sensorManager.registerListener(this,this.accelerometer,SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        this.sensorManager.unregisterListener(this);
+    }
+
     private void resetCanvas(){
         this.mBitmap.eraseColor(Color.TRANSPARENT);
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
@@ -196,4 +220,25 @@ public class Gameplay extends Fragment {
         }
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        int sensorType = this.accelerometer.getType();
+        float temp = 0;
+        switch (sensorType){
+            case Sensor.TYPE_ACCELEROMETER:
+                temp = sensorEvent.values[0];
+                break;
+        }
+        if(temp > 1){
+            this.spaceship.moveLeft();
+        }
+        else if(temp < -1){
+            this.spaceship.moveRight();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
 }

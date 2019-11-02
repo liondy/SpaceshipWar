@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
         MainPresenter presenter = new MainPresenter(this);
 
         this.splash_screen = Cover.createCover(presenter);
-        this.gameplay = Gameplay.createGameplay(presenter);
+        this.gameplay = Gameplay.createGameplay(presenter,this);
 
         this.fragmentManager=this.getSupportFragmentManager();
         showPage(1);
