@@ -22,7 +22,7 @@ public class ThreadEnemy implements Runnable {
             this.enemy.setKecepatan(kecepatan);
             Random rand = new Random();
             int angkaRand = rand.nextInt(10);
-            if(angkaRand<=5){
+            if(angkaRand>0){
                 this.enemy.setX();
             }
             else{

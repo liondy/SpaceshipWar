@@ -36,12 +36,16 @@ public class Enemy {
 
     public void setX() {
         if(flag1){
-            this.x+=this.kecepatan;
-            flag1=false;
+            if(this.x+this.kecepatan>0){
+                this.x+=this.kecepatan;
+                flag1=false;
+            }
         }
         else {
-            this.x-=this.kecepatan;
-            flag1=true;
+            if(this.x-this.kecepatan>0){
+                this.x-=this.kecepatan;
+                flag1=true;
+            }
         }
     }
 
@@ -52,12 +56,16 @@ public class Enemy {
 
     public void setY() {
         if(flag2){
-            this.y+=this.kecepatan;
-            this.flag2=false;
+            if(this.y+this.kecepatan>0){
+                this.y+=this.kecepatan;
+                this.flag2=false;
+            }
         }
         else {
-            this.y-=this.kecepatan;
-            flag2=true;
+            if(this.y-this.kecepatan>0){
+                this.y-=this.kecepatan;
+                flag2=true;
+            }
         }
     }
 
