@@ -12,10 +12,11 @@ public class Enemy {
     private float batasY;
     private float kecepatan;
     private boolean flag1;
-    private boolean flag2;
+    private float width;
+    private float height;
 
 
-    public Enemy(Bitmap mbitmap, float x, float y, float batasX, float batasY) {
+    public Enemy(Bitmap mbitmap, float x, float y, float batasX, float batasY, float width, float height) {
         this.mbitmap = mbitmap;
         this.x = x;
         this.y = y;
@@ -23,7 +24,16 @@ public class Enemy {
         this.batasY = batasY;
         this.kecepatan = 0;
         this.flag1 = false;
-        this.flag2 = false;
+        this.width=width;
+        this.height=height;
+    }
+
+    public float getWidth() {
+        return this.width;
+    }
+
+    public float getHeight() {
+        return this.height;
     }
 
     public Bitmap getMusuh(){
@@ -36,7 +46,7 @@ public class Enemy {
 
     public void setX() {
         if(flag1){
-            if(this.x+this.kecepatan>0){
+            if(this.x+this.kecepatan>0&&this.x+this.kecepatan<this.getBatasX()){
                 this.x+=this.kecepatan;
                 flag1=false;
             }
@@ -54,17 +64,15 @@ public class Enemy {
         return y;
     }
 
-    public void setY() {
-        if(flag2){
-            if(this.y+this.kecepatan>0){
+    public void setY(boolean down) {
+        if(down){
+            if(this.y+this.kecepatan>0 && this.y+this.kecepatan<(this.getBatasY()-this.y) * 1.5f){
                 this.y+=this.kecepatan;
-                this.flag2=false;
             }
         }
         else {
             if(this.y-this.kecepatan>0){
                 this.y-=this.kecepatan;
-                flag2=true;
             }
         }
     }

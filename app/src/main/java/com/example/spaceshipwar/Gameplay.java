@@ -63,6 +63,8 @@ public class Gameplay extends Fragment implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
+    private boolean gameStart=true;
+
     public Gameplay(){
         //require empty constructor
     }
@@ -133,8 +135,8 @@ public class Gameplay extends Fragment implements SensorEventListener {
         this.canvas = new Canvas(this.mBitmap);
         this.paint = new Paint();
 
-        this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth);
-        this.musuh = new Enemy(ufo, this.mBitmap.getWidth()/2-ufo.getWidth()/2,ufo.getHeight()-200,this.mBitmap.getWidth(),this.mBitmap.getHeight());
+        this.spaceship = new Spaceship(ship,(this.mBitmap.getWidth()) / 2 - ship.getWidth()/2,this.mBitmap.getHeight()/2 + ship.getHeight() * 1.5f,this.bitmapWidth, ship.getWidth(),ship.getHeight());
+        this.musuh = new Enemy(ufo, this.mBitmap.getWidth()/2-ufo.getWidth()/2,ufo.getHeight()-200,this.mBitmap.getWidth(),this.mBitmap.getHeight(),ufo.getWidth(),ufo.getHeight());
 
         this.threadBullet = new ThreadBullet(this.objUIWrapper,this.spaceship);
         this.threadBullet.start();
@@ -173,6 +175,10 @@ public class Gameplay extends Fragment implements SensorEventListener {
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
         this.canvas.drawBitmap(musuh.getMusuh(),musuh.getX(),musuh.getY(),new Paint());
+        if(this.musuh.getX()>=this.spaceship.getX()&&this.musuh.getX()+this.musuh.getWidth()>=this.spaceship.getX()+this.spaceship.getWidth() && this.musuh.getY()<=this.spaceship.getY()){
+            this.gameStart=false;
+            System.out.println("gameStart=false");
+        }
         this.imgContainer.invalidate();
     }
 

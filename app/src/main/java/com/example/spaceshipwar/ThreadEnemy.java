@@ -17,16 +17,21 @@ public class ThreadEnemy implements Runnable {
 
     @Override
     public void run() {
-        while(this.enemy.getY()<=this.enemy.getBatasY()-this.enemy.getY() && this.enemy.getX()<=this.enemy.getBatasX()-this.enemy.getX()){
+        while(this.enemy.getY()>=0 && this.enemy.getY()<=this.enemy.getBatasY() && this.enemy.getX()>=0 && this.enemy.getX()<=this.enemy.getBatasX()){
             int kecepatan = this.enemy.randNum();
             this.enemy.setKecepatan(kecepatan);
             Random rand = new Random();
-            int angkaRand = rand.nextInt(10);
-            if(angkaRand>0){
+            int angkaRand = rand.nextInt(21)-10;
+            if(angkaRand>5){
                 this.enemy.setX();
             }
             else{
-                this.enemy.setY();
+                if(angkaRand<-8){
+                    this.enemy.setY(false);
+                }
+                else{
+                    this.enemy.setY(true);
+                }
             }
             try{
                 Thread.sleep(1000);
