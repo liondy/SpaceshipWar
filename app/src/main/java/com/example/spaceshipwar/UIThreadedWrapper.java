@@ -30,14 +30,6 @@ public class UIThreadedWrapper extends Handler {
             ArrayList<Bullet> parameter = (ArrayList<Bullet>) msg.obj;
             this.gameplay.setBullets(parameter);
         }
-        else if(msg.what==UIThreadedWrapper.setEnemy){
-            Bullet parameter = (Bullet) msg.obj;
-            this.gameplay.setEnemyBullet(parameter);
-        }
-        else if(msg.what==UIThreadedWrapper.setEnemies){
-            ArrayList<Bullet> parameter = (ArrayList<Bullet>) msg.obj;
-            this.gameplay.setEnemiesBullet(parameter);
-        }
     }
 
     public void setBullet(Bullet bullet){

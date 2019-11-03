@@ -56,8 +56,6 @@ public class Gameplay extends Fragment implements SensorEventListener {
     private ThreadBullet threadBullet;
     private ThreadMove bulletMoveThread;
     private ThreadEnemy threadEnemy;
-    private ThreadEnemyBullet threadEnemyBullet;
-    private ThreadMoveEnemy threadMoveEnemy;
     private UIThreadedWrapper objUIWrapper;
 
     private SensorManager sensorManager;
@@ -145,10 +143,6 @@ public class Gameplay extends Fragment implements SensorEventListener {
 
         this.threadEnemy = new ThreadEnemy(this.musuh);
         this.threadEnemy.start();
-        this.threadEnemyBullet = new ThreadEnemyBullet(this.objUIWrapper,this.musuh);
-        this.threadEnemyBullet.start();
-        this.threadMoveEnemy = new ThreadMoveEnemy(this.objUIWrapper,this.enemiesBullets);
-        this.threadMoveEnemy.start();
 
         this.imgContainer.setImageBitmap(this.mBitmap);
         this.resetCanvas();
@@ -203,27 +197,6 @@ public class Gameplay extends Fragment implements SensorEventListener {
             this.drawBullet((int)this.bullets.get(i).getX(), (int)this.bullets.get(i).getY());
         }
 
-    }
-
-    public void drawEnemyBullet(int x, int y){
-        Rect rectangle = new Rect(x+175 , y + 330, x + 155, y+280 );
-        this.canvas.drawRect(rectangle, paint);
-    }
-
-    public void setEnemyBullet(Bullet bulet){
-        this.enemiesBullets.add(bulet);
-        resetCanvas();
-        for(int i=0;i<this.enemiesBullets.size();i++){
-            this.drawEnemyBullet((int)this.enemiesBullets.get(i).getX(), (int)this.enemiesBullets.get(i).getY());
-        }
-    }
-
-    public void setEnemiesBullet(ArrayList<Bullet> bullets){
-        this.enemiesBullets = bullets;
-        resetCanvas();
-        for(int i=0;i<this.enemiesBullets.size();i++){
-            this.drawEnemyBullet((int)this.enemiesBullets.get(i).getX(),(int)this.enemiesBullets.get(i).getY());
-        }
     }
 
     @Override
