@@ -141,7 +141,7 @@ public class Gameplay extends Fragment implements SensorEventListener {
         this.bulletMoveThread = new ThreadMove(this.objUIWrapper,this.bullets,this.musuh);
         this.bulletMoveThread.start();
 
-        this.threadEnemy = new ThreadEnemy(this.musuh);
+        this.threadEnemy = new ThreadEnemy(this.musuh,this.spaceship);
         this.threadEnemy.start();
 
         this.imgContainer.setImageBitmap(this.mBitmap);
@@ -169,10 +169,6 @@ public class Gameplay extends Fragment implements SensorEventListener {
         paint.setColorFilter(filter);
         this.canvas.drawBitmap(spaceship.getSpaceship(), spaceship.getX(), spaceship.getY(), paint);
         this.canvas.drawBitmap(musuh.getMusuh(),musuh.getX(),musuh.getY(),new Paint());
-        if(this.musuh.getX()>=this.spaceship.getX()&&this.musuh.getX()+this.musuh.getWidth()>=this.spaceship.getX()+this.spaceship.getWidth() && this.musuh.getY()<=this.spaceship.getY()){
-            this.gameStart=false;
-            System.out.println("gameStart=false");
-        }
         this.imgContainer.invalidate();
     }
 
