@@ -7,11 +7,8 @@ import android.os.Message;
 import java.util.ArrayList;
 
 public class UIThreadedWrapper extends Handler {
-
-    protected final static int setEnemy=0;
-    protected final static int setEnemies=1;
-    protected final static int setBullet=3;
-    protected final static int setBullets=4;
+    protected final static int setBullet=0;
+    protected final static int setBullets=1;
 
 
     protected Gameplay gameplay;
@@ -43,20 +40,6 @@ public class UIThreadedWrapper extends Handler {
         Message msg = new Message();
         msg.what = setBullets;
         msg.obj = bullets;
-        this.sendMessage(msg);
-    }
-
-    public void setEnemyBullet(Bullet enemy) {
-        Message msg = new Message();
-        msg.what = setEnemy;
-        msg.obj = enemy;
-        this.sendMessage(msg);
-    }
-
-    public void setEnemiesBullet(ArrayList<Bullet> enemies){
-        Message msg = new Message();
-        msg.what = setEnemies;
-        msg.obj = enemies;
         this.sendMessage(msg);
     }
 
