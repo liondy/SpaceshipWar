@@ -1,6 +1,8 @@
 package com.example.spaceshipwar;
 
 import android.content.res.Resources;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +47,9 @@ public class Cover extends Fragment {
         this.btn_high_score.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(view.getId() == btn_high_score.getId()){
+                    presenter.showPage(FragmentListener.HIGHSCROE);
+                }
             }
         });
         return view;

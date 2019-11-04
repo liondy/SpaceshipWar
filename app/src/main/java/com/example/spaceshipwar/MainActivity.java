@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
     private FragmentManager fragmentManager;
     private Cover splash_screen;
     private Gameplay gameplay;
+    private Highscore highscore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
 
         this.splash_screen = Cover.createCover(presenter);
         this.gameplay = Gameplay.createGameplay(presenter,this);
+        this.highscore = Highscore.createHighscore(presenter);
 
         this.fragmentManager=this.getSupportFragmentManager();
         showPage(1);
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
             if(this.gameplay.isAdded()){
                 ft.hide(this.gameplay);
             }
+            if(this.highscore.isAdded()){
+                ft.hide(this.highscore);
+            }
         }
         else if(page==FragmentListener.GAME){
             if(this.gameplay.isAdded()){
@@ -52,6 +57,23 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
             }
             if(this.splash_screen.isAdded()){
                 ft.hide(this.splash_screen);
+            }
+            if(this.highscore.isAdded()){
+                ft.hide(this.highscore);
+            }
+        }
+        else if(page == FragmentListener.HIGHSCROE){
+            if(this.highscore.isAdded()){
+                ft.show(this.highscore);
+            }
+            else{
+                ft.add(R.id.fragment_container, this.highscore);
+            }
+            if(this.splash_screen.isAdded()){
+                ft.hide(this.splash_screen);
+            }
+            if(this.gameplay.isAdded()){
+                ft.hide(this.gameplay);
             }
         }
         ft.commit();

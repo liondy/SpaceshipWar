@@ -61,6 +61,8 @@ public class Gameplay extends Fragment implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
+    private PostCalculateTask scoreWebService;
+
     private boolean gameStart=true;
 
     public Gameplay(){
@@ -145,6 +147,9 @@ public class Gameplay extends Fragment implements SensorEventListener {
         this.threadEnemy.start();
 
         this.imgContainer.setImageBitmap(this.mBitmap);
+        int tempScore = this.bulletMoveThread.getScore();
+        this.score.setText(tempScore + "");
+        this.scoreWebService.postExecute("2017730008", 1, tempScore);
         this.resetCanvas();
     }
 

@@ -10,12 +10,14 @@ public class ThreadMove implements Runnable{
     protected UIThreadedWrapper uiThreadedWrapper;
     private ArrayList<Bullet> bullets;
     protected Enemy enemy;
+    protected int score;
 
     public ThreadMove(UIThreadedWrapper uiThreadedWrapper, ArrayList<Bullet> bullets, Enemy enemy){
         this.uiThreadedWrapper = uiThreadedWrapper;
         this.thread = new Thread(this);
         this.bullets = bullets;
         this.enemy = enemy;
+        this.score = 0;
     }
 
     public void start(){
@@ -30,6 +32,7 @@ public class ThreadMove implements Runnable{
                 if (Math.abs(this.bullets.get(i).getX() - this.enemy.getX()) < 75 && Math.abs(this.bullets.get(i).getY() - this.enemy.getY()) < 30) {
                     System.out.println("yes");
                     this.bullets.remove(i);
+                    this.score += 10;
                     this.uiThreadedWrapper.setBullets(this.bullets);
                 }
                 this.bullets.get(i).setY((int)this.bullets.get(i).getY() - 100);
@@ -41,6 +44,10 @@ public class ThreadMove implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public int getScore(){
+        return this.score;
     }
 
     public void setBullets(ArrayList<Bullet> bullets) {
