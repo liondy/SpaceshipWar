@@ -74,6 +74,7 @@ public class Gameplay extends Fragment implements SensorEventListener {
             gameplay = new Gameplay();
             gameplay.presenter = presenter;
             gameplay.context=context;
+            gameplay.scoreWebService = new PostCalculateTask(context);
         }
         return gameplay;
     }
@@ -147,9 +148,6 @@ public class Gameplay extends Fragment implements SensorEventListener {
         this.threadEnemy.start();
 
         this.imgContainer.setImageBitmap(this.mBitmap);
-        int tempScore = this.bulletMoveThread.getScore();
-        this.score.setText(tempScore + "");
-        this.scoreWebService.postExecute("2017730008", 1, tempScore);
         this.resetCanvas();
     }
 
@@ -169,6 +167,9 @@ public class Gameplay extends Fragment implements SensorEventListener {
     }
 
     private void resetCanvas(){
+        int tempScore = this.bulletMoveThread.getScore();
+        this.score.setText(tempScore + "");
+        this.scoreWebService.postExecute("2017730008", 1, tempScore);
         this.mBitmap.eraseColor(Color.TRANSPARENT);
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
         paint.setColorFilter(filter);
